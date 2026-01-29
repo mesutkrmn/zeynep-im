@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zeynep ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #2a0033, #050008);
+  overflow: hidden;
+  font-family: 'Georgia', serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+#container {
+  text-align: center;
+  z-index: 2;
+  padding: 20px;
+}
+
+#text {
+  font-size: 26px;
+  min-height: 80px;
+}
+
+/* Zeynep özel efekt */
+.zeynep {
+  font-size: 40px;
+  color: #ff99cc;
+  text-shadow: 0 0 15px #ff66b2, 0 0 30px #ff3399;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #ff66b2; }
+  to { text-shadow: 0 0 30px #ff3399; }
+}
+
+/* Son mesaj */
+.final {
+  font-size: 36px;
+  color: #ffb6d9;
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Müzik butonu */
+#startBtn {
+  position: absolute;
+  bottom: 40px;
+  padding: 15px 35px;
+  font-size: 18px;
+  background: linear-gradient(45deg, #ff4da6, #ff99cc);
+  border: none;
+  border-radius: 40px;
+  color: white;
+  cursor: pointer;
+  z-index: 3;
+  box-shadow: 0 0 20px rgba(255, 77, 166, 0.8);
+}
+
+/* Kalp & çiçek */
+.particle {
+  position: absolute;
+  font-size: 22px;
+  animation: float 8s linear infinite;
+  opacity: 0.85;
+}
+
+@keyframes float {
+  from { transform: translateY(110vh); }
+  to { transform: translateY(-10vh); }
+}
+</style>
+</head>
+
+<body>
+
+<div id="container">
+  <div id="text"></div>
+</div>
+
+<button id="startBtn">❤️ Dokun ve Başla</button>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const messages = [
+  { text: "Zeynep…", class: "zeynep" },
+  { text: "Seni her geçen gün daha çok seviyorum" },
+  { text: "Hayatıma kattığın her şey için teşekkür ederim" },
+  { text: "İyi ki varsın ❤️", class: "final" }
+];
+
+let msgIndex = 0;
+let charIndex = 0;
+const textDiv = document.getElementById("text");
+
+function typeMessage() {
+  if (charIndex === 0) {
+    textDiv.className = messages[msgIndex].class || "";
+  }
+
+  if (charIndex < messages[msgIndex].text.length) {
+    textDiv.textContent += messages[msgIndex].text.charAt(charIndex);
+    charIndex++;
+    setTimeout(typeMessage, 80);
+  } else {
+    if (msgIndex === messages.length - 1) return;
+    setTimeout(() => {
+      textDiv.textContent = "";
+      textDiv.className = "";
+      charIndex = 0;
+      msgIndex++;
+      typeMessage();
+    }, 1600);
+  }
+}
+
+/* Kalp + çiçek üret */
+function createParticle() {
+  const p = document.createElement("div");
+  p.className = "particle";
+  p.textContent = Math.random() > 0.5 ? "🌸" : "❤️";
+  p.style.left = Math.random() * 100 + "vw";
+  p.style.animationDuration = (5 + Math.random() * 5) + "s";
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 10000);
+}
+setInterval(createParticle, 350);
+
+/* Başlat */
+document.getElementById("startBtn").onclick = () => {
+  document.getElementById("music").play();
+  document.getElementById("startBtn").style.display = "none";
+  typeMessage();
+};
+</script>
+
+</body>
+</html>
